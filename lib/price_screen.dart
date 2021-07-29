@@ -12,14 +12,14 @@ class PriceScreen extends StatefulWidget {
 class _PriceScreenState extends State<PriceScreen> {
   String dropDownValue = currenciesList[0];
   CoinData coinData = CoinData();
-  String rate = '?';
+  List<String> rate = ['?', '?', '?'];
 
   void updateUI() async {
     try {
       var data = await coinData.getRate(dropDownValue);
       setState(() {
-        rate = data['rate'].toStringAsFixed(1);
-        print(rate);
+        for (int i = 0; i < rate.length; i++)
+          rate[i] = data[cryptoList[i]]['rate'].toStringAsFixed(1);
       });
     } catch (e) {
       print(e);
@@ -62,6 +62,23 @@ class _PriceScreenState extends State<PriceScreen> {
     );
   }
 
+  Column makeCards() {
+    List<CurrencyWidget> cryptoCards = [];
+    for (int i=0;i<cryptoList.length;i++) {
+      cryptoCards.add(
+        CurrencyWidget(
+          fromCurrency: cryptoList[i],
+          rate: rate[i],
+          dropDownValue: dropDownValue,
+        ),
+      );
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: cryptoCards,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -78,25 +95,7 @@ class _PriceScreenState extends State<PriceScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Column(
-            children: [
-              CurrencyWidget(
-                fromCurrency: cryptoList[0],
-                rate: rate,
-                dropDownValue: dropDownValue,
-              ),
-              CurrencyWidget(
-                fromCurrency: cryptoList[1],
-                rate: rate,
-                dropDownValue: dropDownValue,
-              ),
-              CurrencyWidget(
-                fromCurrency: cryptoList[2],
-                rate: rate,
-                dropDownValue: dropDownValue,
-              ),
-            ],
-          ),
+          makeCards(),
           Container(
             height: 150.0,
             alignment: Alignment.center,
