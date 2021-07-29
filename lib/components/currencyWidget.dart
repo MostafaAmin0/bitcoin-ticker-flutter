@@ -7,7 +7,7 @@ class CurrencyWidget extends StatelessWidget {
     @required this.dropDownValue,
   });
 
-  String fromCurrency;
+  final String fromCurrency;
   final String rate;
   final String dropDownValue;
 
