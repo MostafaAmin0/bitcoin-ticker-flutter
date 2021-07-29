@@ -1,5 +1,4 @@
 import 'package:bitcoin_ticker/network.dart';
-import 'package:flutter/material.dart';
 
 const List<String> currenciesList = [
   'AUD',
@@ -35,7 +34,7 @@ class CoinData {
   final _url = 'https://rest.coinapi.io/v1/exchangerate';
   final _apiKey = 'A35536F8-C883-4242-8939-9375029A41DD';
 
-  Future getRate(@required String to) async {
+  Future getRate(String to) async {
     NetworkHelper networkHelper;
     Map<String, dynamic> rateMap = {};
     for (String crypt in cryptoList) {
